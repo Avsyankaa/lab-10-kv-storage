@@ -1,24 +1,5 @@
 #include <db.hpp>
 
-#include <ThreadPool.h>
-#include <picosha2.h>
-
-#include <boost/log/utility/setup/common_attributes.hpp>
-#include <boost/log/sources/severity_logger.hpp>
-#include <boost/log/sources/record_ostream.hpp>
-#include <boost/log/core.hpp>
-#include <boost/log/expressions.hpp>
-#include <boost/log/sinks/sync_frontend.hpp>
-#include <boost/log/sinks/text_file_backend.hpp>
-#include <boost/log/sinks/text_ostream_backend.hpp>
-#include <boost/log/sources/logger.hpp>
-#include <boost/smart_ptr/make_shared_object.hpp>
-#include <boost/smart_ptr/shared_ptr.hpp>
-#include <boost/log/utility/setup/file.hpp>
-#include <boost/log/trivial.hpp>
-
-namespace logging = boost::log;
-
 std::vector<ColumnFamilyHandle*> kv_storage::open_new_bd() {
     Options options;
     options.create_if_missing = true;
@@ -131,6 +112,8 @@ void kv_storage::reader_thread(Iterator* it, unsigned k) {
         start_data_queue.push({it->key().ToString(), it->value().ToString()});
         column_number.push(k);
         std::cout << it->key().ToString()<< ":" << it->value().ToString()<< std::endl;
+        std::cout << k << std::endl;
+        std::cout << std::endl;
         read = true;
         m.unlock();
         cv.notify_one();
@@ -188,3 +171,35 @@ void kv_storage::writer_thread(std::vector<ColumnFamilyHandle*> handles) {
     column_number.pop();
 }
 
+
+int main(int argc, char* argv[]) {
+    std::string log_level = "";
+    unsigned thread_count = 0;
+    std::string path = "";
+    po::options_description desc("Options:");
+    desc.add_options()("help", " receiving information\n")(
+
+        "log_level", po::value<std::string>(&log_level), "= info|warning|error\n = default: error\n")(
+
+            "output", po::value<std::string>(&path),
+		 "=  \n = default: count of logical core\n Output directory MUST BE EMPTY\n")(
+
+                "thread_count", po::value<unsigned>(&thread_count), "= <path/to/output_directory\n= default:/home/vagrant/Projects/lab-10-kv-storage/hash\n ");
+
+    po::variables_map vm;
+
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+
+    po::notify(vm);
+    if (vm.count("help")) {
+
+        std::cout << "Usage: dbcs [options] <path/to/input/storage.db>" << std::endl;
+
+        std::cout << desc << std::endl;
+    }
+    kv_storage kv;
+    kv.set_log_level(log_level);
+    kv.set_thread_count(thread_count);
+    kv.set_path_write(path);
+    kv.make_process();
+}

@@ -4,3 +4,9 @@
 [submodule "tools/gate"]
 	path = tools/gate
 	url = https://github.com/hunter-packages/gate.git
+[submodule "tools/ThreadPool"]
+	path = tools/ThreadPool
+	url = https://github.com/progschj/ThreadPool
+[submodule "tools/PicoSHA2"]
+	path = tools/PicoSHA2
+	url = https://github.com/okdshin/PicoSHA2
