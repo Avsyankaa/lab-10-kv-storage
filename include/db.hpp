@@ -1,5 +1,5 @@
 
-// Copyright 2018 Avsyankaa <Avsyankaa@gmail.com>
+// Copyright 2018 Avsyankaa <Avsyankaa@gmail.com> 
 
 #ifndef INCLUDE_DB_HPP_
 #define INCLUDE_DB_HPP_
