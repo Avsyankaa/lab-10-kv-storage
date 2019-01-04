@@ -42,8 +42,8 @@ public:
     kv_storage(): read_column(100),
         done(false),
         read(false),
-        kDBPath_read ("/home/vagrant/Projects/lab-10-kv-storage/tmp"),
-        kDBPath_write ("/home/vagrant/Projects/lab-10-kv-storage/hash"),
+        kDBPath_read ("/home/travis/build/Avsyankaa/lab-10-kv-storage/tmp"),
+        kDBPath_write ("/home/travis/build/Avsyankaa/lab-10-kv-storage/hash"),
         log_level ("error"),
         thread_count(0)
     {}
