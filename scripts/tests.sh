@@ -16,4 +16,8 @@ cmake -H. -B_builds $CMAKE_OPTS
 
 cmake --build _builds
 
+cd ..
+
+mkdir hash
+
 cmake --build _builds --target test -- ARGS="--verbose"
