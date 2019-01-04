@@ -130,7 +130,7 @@ void kv_storage::reader_thread(Iterator* it, unsigned k) {
         m.lock();
         start_data_queue.push({it->key().ToString(), it->value().ToString()});
         column_number.push(k);
-        std::cout << it->key().ToString()<< ":" << it->value().ToString()<< std::endl;
+        //std::cout << it->key().ToString()<< ":" << it->value().ToString()<< std::endl;
         read = true;
         m.unlock();
         cv.notify_one();
