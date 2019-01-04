@@ -18,4 +18,6 @@ cmake --build _builds
 
 mkdir hash
 
+ls
+
 cmake --build _builds --target test -- ARGS="--verbose"
